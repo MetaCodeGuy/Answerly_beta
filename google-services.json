@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "115671982311",
+    "project_id": "arthub-f6303",
+    "storage_bucket": "arthub-f6303.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:115671982311:android:737aa63e677822873a4242",
+        "android_client_info": {
+          "package_name": "com.kavistudios.answerly"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "115671982311-ur3p8ig4nf20sh6ealstd9j24i0lfv8c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD5B0yton4Kd7vtGdVUHHkaLgqzVfsSXXY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "115671982311-0me9ebdi3quhd1j253c5nctg4cea8tdb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
