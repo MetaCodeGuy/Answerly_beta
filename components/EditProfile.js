@@ -1,11 +1,11 @@
 //import liraries
 import { Icon } from '@rneui/base';
 import { Button } from '@rneui/themed';
-import { collection, doc, updateDoc } from 'firebase/firestore';
+import { collection, doc, getDocs, query, updateDoc, where } from 'firebase/firestore';
 import * as ImagePicker from 'expo-image-picker';
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, Image, TextInput, Alert } from 'react-native';
-import { db, storage } from '../firebase/config';
+import { auth, db, storage } from '../firebase/config';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'; 
 import { useNavigation } from '@react-navigation/native';
 
@@ -66,13 +66,16 @@ const EditProfile = ({route}) => {
 
     const UpdateProfile = ()=>{
        const proRef = doc(db,`Profiles`,data.id)
+       const AllQuestRef = collection(db,"Questions",where("userid","===",auth.currentUser.uid))
         updateDoc(proRef,{
             username:CurName,
             UserImg:image
-        }).then(()=>{
+        }).then(async ()=>{
             Alert.alert('Profile Updated',"Your Profile Was Changed Successfully")
+            const rawdata  = await getDocs(collection);
+            const questdata = rawdata.docs.map((doc)=>({...doc.data(),id:doc.id}))
             setUpdate(prev=>!prev)
-            nav.navigate('Home')
+            //nav.navigate('Home')
         })
 
     }

@@ -7,7 +7,6 @@ import { useNavigation } from '@react-navigation/native';
 
 // create a component
 const Header = ({ question, setHomeUpdate, proData }) => {
-    console.log(proData,"\t ----------------------- header");
     const [userQuestion, setUserQuestion] = useState(question ? question : '')
     const nav = useNavigation()
     return (

@@ -5,7 +5,7 @@ import Question from './Question';
 import Header from './Header';
 import { Button } from '@rneui/themed';
 import { LinearGradient } from 'expo-linear-gradient';
-import { addDoc, collection, doc, getDoc, getDocs, serverTimestamp } from 'firebase/firestore';
+import { addDoc, collection, doc, getDoc, getDocs, serverTimestamp, updateDoc } from 'firebase/firestore';
 import { auth, db } from '../firebase/config';
 import { useNavigation } from '@react-navigation/native';
 
@@ -21,7 +21,6 @@ const AnsweringPage = ({ route }) => {
     const rawdat = await getDoc(questref)
     const data = rawdat.data()
     setQuestData(data)
-
   }
 
   const GetProfiledata = async () => {
@@ -35,11 +34,14 @@ const AnsweringPage = ({ route }) => {
   }
 
   const AnswerHandler = () => {
+   
     let UserCred = {}
     Profile.map((pro) => {
       if (pro.userid === auth.currentUser.uid) {
         UserCred.UserImg = (pro.UserImg)
         UserCred.UserName = (pro.username)
+        UserCred.id = (pro.id)
+        UserCred.points = pro.points
       }
     })
     try {
@@ -56,10 +58,14 @@ const AnsweringPage = ({ route }) => {
       if (!Answer) return Alert.alert("Type it...", 'Please type The Answer Before Posting')
       addDoc(answerRef, AnswerData).then(() => {
         setAnswer('')
-        Alert.alert("Boom!", "Answer Posted!")
-        nav.navigate('Home')
-      }
-      )
+        updateDoc(doc(db,"Profiles",UserCred.id),{
+          points:Number(UserCred.points+QuestData.questPoint)
+        }).then(()=>{
+          Alert.alert("Boom!", "Answer Posted!")
+          setHomeUpdate(prev=>!prev)
+          nav.navigate('Home')
+        })
+      })
     } catch (error) {
  console.log(error)
     }

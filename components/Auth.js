@@ -24,7 +24,7 @@ const Authentication = ({route}) => {
         console.log(err.code)
         switch(err.code){
           case "auth/email-already-in-use":
-            Alert.alert("You Are Already A Member Try Login!","The Email You have Entered Was Already registered! Please Try Login ")
+            LoginAccount()
             break;
         }
       }) 
@@ -38,7 +38,8 @@ const Authentication = ({route}) => {
     try {
       signInWithEmailAndPassword(auth,UserData.Email,UserData.Password).then(()=>{
         Alert.alert("Boom Welcome Back","We Are Proudly Welcome you Back To Answerly ")
-        nav.navigate('CreateProfile',{setAuthScreenUpdate})
+        AsyncStorage.setItem('isAuth', 'true')
+        setAuthScreenUpdate(prev => !prev) 
       })
       .catch((err)=>{
         console.log(err.code)

@@ -22,6 +22,7 @@ const CreateProfile = ({ route }) => {
         const ProfileData = {
             UserImg: UserProfileic,
             username: UserName,
+            points:0,
             userid: auth.currentUser.uid
         }
         if (!UserImg || !UserName) return Alert.alert("Complete Every Filed!", "Please Fill Everything to Create Your Profile! ")
@@ -107,6 +108,7 @@ const CreateProfile = ({ route }) => {
                         value={UserName}
                         className={"border-2 border-gray-500 rounded font-bold p-2 h-full w-[95%]  text-[16px] mx-auto"}
                         onChangeText={(txt) => setUserName(txt)}
+                        maxLength={12}
                         placeholder='Enter Your Name (e.x Nithish)'
                     />
 

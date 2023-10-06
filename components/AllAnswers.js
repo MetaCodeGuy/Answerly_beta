@@ -12,7 +12,6 @@ import { Button } from '@rneui/themed';
 const AllAnswers = ({ route }) => {
     const [Data, setData] = useState([])
     const { question, setHomeUpdate, proData } = route.params
-    console.log(proData,"\t from All Answer")
     const nav = useNavigation()
     const getData = async () => {
         const QuestRef = collection(db, 'Questions')

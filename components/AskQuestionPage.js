@@ -11,7 +11,6 @@ import { useNavigation } from '@react-navigation/native';
 // create a component
 const AskQuestion = ({ route }) => {
     const { quest, setHomeUpdate, proData } = route.params
-    console.log(proData,"----------------\n")
     const nav = useNavigation()
     const [open, setOpen] = useState(false);
     const [Question, setQuestion] = useState(quest ? quest : '')
@@ -48,6 +47,7 @@ const AskQuestion = ({ route }) => {
             UserImg: UserCred.UserImg,
             username: UserCred.UserName,
             question: Question,
+            questPoint:Math.floor(Math.random() * 15 +3),
             author: auth.currentUser.uid,
             CreatedAt: serverTimestamp()
         }

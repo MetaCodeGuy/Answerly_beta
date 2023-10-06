@@ -7,12 +7,12 @@ import { Button, Icon } from '@rneui/themed';
 import { useNavigation } from '@react-navigation/native';
 
 // create a component
-const Profile = () => {
-
+const Profile = ({setHomeUpdate , HomeUpdate}) => {
+  const Ranks = ["Learner","Rookie","Master","Lord","Genius"]
   const [Update, setUpdate] = useState(false)
   const nav = useNavigation()
-  const [Profiles, setprofiles] = useState()
-  const [ThisUserProfile, setThisUserProfile] = useState([])
+  const [Profiles, setprofiles] = useState({})
+  const [ThisUserProfile, setThisUserProfile] = useState()
 
 
 
@@ -39,7 +39,7 @@ const Profile = () => {
   useEffect(() => {
     getProfileData()
     return () => { }
-  }, [Update])
+  }, [HomeUpdate,Update])
 
   return (
     <View className={'w-full h-full '}>
@@ -53,22 +53,22 @@ const Profile = () => {
           /> */}
           <Image
             source={{
-              uri: ThisUserProfile.UserImg === "Iron Man" ? 'https://cdn.pixabay.com/photo/2021/07/20/14/59/iron-man-6480952_1280.jpg'
-                : ThisUserProfile.UserImg === "Iron Girl" ? 'https://cdnb.artstation.com/p/assets/images/images/043/389/817/large/mironishin-story-gwen-i03.jpg?1637132619' :
-                  ThisUserProfile.UserImg
+              uri: ThisUserProfile?.UserImg === "Iron Man" ? 'https://cdn.pixabay.com/photo/2021/07/20/14/59/iron-man-6480952_1280.jpg'
+                : ThisUserProfile?.UserImg === "Iron Girl" ? 'https://cdnb.artstation.com/p/assets/images/images/043/389/817/large/mironishin-story-gwen-i03.jpg?1637132619' :
+                  ThisUserProfile?.UserImg
             }}
             resizeMode='contain'
             className={'w-[70px] h-[70px] rounded-full'}
           />
           <View className={'w-[50%]  flex flex-col justify-center  items-start  h-full '}>
-            <Text className={" ml-2 text-[18px]  font-bold "}>{ThisUserProfile.username}</Text>
+            <Text className={" ml-2 text-[18px]  font-bold "}>{ThisUserProfile?.username}</Text>
             <View className={' flex flex-row items-center justify-evenly w-[100px] h-[30%] '}>
               <Image
                 source={require('../assets/medals/gold-medal.png')}
                 className={'w-[30px] h-[30px]'}
                 resizeMode='contain'
               />
-              <Text className={'text-blue-500'}>Genius</Text>
+              <Text className={'text-blue-500'}>{Number(ThisUserProfile?.points ||0)<50?Ranks[0]:Number(ThisUserProfile?.points||0)<100?Ranks[1]:'No Rank'}({Number(ThisUserProfile?.points) || 0 })</Text>
             </View>
 
 
@@ -90,7 +90,7 @@ const Profile = () => {
 
 
       <View className={' w-[95%] mx-auto h-[10%] flex flex-row  justify-start items-center border-b border-b-gray-200'}>
-      {/*}  <Icon name=''type='material' className={'w-[15%] h-full '} />*/}
+     
       <Image
       resizeMode='contain'
       className={"w-[30px]"}

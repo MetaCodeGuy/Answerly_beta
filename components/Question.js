@@ -1,13 +1,14 @@
 //import liraries
 import { useNavigation } from '@react-navigation/native'; 
 import React from 'react';
-import { Skeleton } from '@rneui/themed';
-import { View, Text, Image, Pressable } from 'react-native'; 
-import { Button } from '@rneui/themed';
+import {  Icon, Skeleton } from '@rneui/themed';
+import { View, Text, Image, Pressable, Alert } from 'react-native'; 
+import { Button } from '@rneui/themed'; 
+import { deleteDoc, doc } from 'firebase/firestore';
+import { db } from '../firebase/config';
 
 // create a component
 const Question = ({ showbtn, dat, ProData ,setHomeUpdate }) => { 
-    console.log(ProData,"\t from qustion ");
     let time = (new Date(dat?.CreatedAt?.seconds * 1000)).toDateString().split(" ") 
     const navigation = useNavigation() 
     if (dat.question) {
@@ -17,9 +18,10 @@ const Question = ({ showbtn, dat, ProData ,setHomeUpdate }) => {
             <View 
                 className={'w-[95%] flex flex-col mt-2 border-b border-b-stone-300  rounded-sm  justify-evenly min-h-[120px] max-h-[200px]  items-start mx-auto '}
             >
-                {!showbtn ?<View className={'w-full rounded-t p-2   h-[40%] min-h-[40px] flex justify-center items-start bg-black '}><Text className={'text-white font-bold text-[16px]'}>Question</Text></View>:undefined}
+              
+            
 
-               {showbtn?<View className={'  flex flex-row  justify-start items-center  w-full h-[30%]'}>
+               {true?<View className={'  flex flex-row  justify-start items-center  w-full h-[30%]'}>
                     <View className={'w-fit h-full flex  flex-row justify-center items-center '}>
                         <Image
                             source={{
@@ -31,9 +33,20 @@ const Question = ({ showbtn, dat, ProData ,setHomeUpdate }) => {
                             className={'w-[40px] h-[40px] rounded-full'}
                         />
                     </View>
- <Text className={'ml-1 font-bold '}>{dat.username.slice(0,12)}...•</Text>
-                        <Text className={'text-gray-600 font-bold text-[12px] ml-1 h-fit max-w-[150px]'}>{dat.subject} •</Text>
-                      <Text>{time[1]}-{time[2]} {time[3]}</Text>
+                        <Text className={'text-gray-600 font-bold text-[14px] ml-1 h-fit max-w-[150px]'}>{dat.subject} •</Text>
+                      <Text>{dat.questPoint || 0} Point • {time[1]}-{time[2]} {time[3]}</Text>
+
+               {  !showbtn    ? <Button
+              color={"#ff353f"}
+             containerStyle={{marginLeft:'auto'}}
+             onPress={()=>{
+                deleteDoc(doc(db,"Questions",dat.id)).then(()=>{
+                    Alert.alert("Question Deleted")
+                    setHomeUpdate(prev=>!prev)
+                })
+             }}
+              icon={<Icon name='delete' size={25} type='material' color={"white"}/>}
+              />:undefined}
                 
                 </View>:undefined
 
@@ -49,7 +62,7 @@ const Question = ({ showbtn, dat, ProData ,setHomeUpdate }) => {
                         // buttonStyle={{backgroundColor:'white',marginLeft:'auto'}} 
                         // titleStyle={{color:'purple',padding:0,textAlign:'center',margin:0,fontSize:14}}
                         //  containerStyle={{width:130,height:40,borderColor:'purple',borderWidth:2,marginLeft:'auto',borderRadius:100,}} 
-                         /> : ''}
+                         /> : undefined}
                     </View>
                 </View>
             </View>
